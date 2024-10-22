@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, ProgressBar, Form } from 'react-bootstrap';
-import './DeliveryList.css'; // Ensure to modify this file for background styling
+import { FiClock, FiCheckCircle, FiFlag } from 'react-icons/fi';
+import { FaSpinner } from 'react-icons/fa'; // Import a spinner icon for lazy load
+import LazyLoad from 'react-lazyload';
+import './DeliveryList.css';
+
 
 const DeliveryList = () => {
   const [deliveries, setDeliveries] = useState([]);
