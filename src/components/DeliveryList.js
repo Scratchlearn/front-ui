@@ -76,7 +76,6 @@ const DeliveryList = () => {
     <Container>
       <h1 className="my-4">List of Deliveries</h1>
 
-      {/* Search box and filter icon */}
       <Row className="mb-4">
         <Col xs={10}>
           <Form.Control
@@ -100,43 +99,61 @@ const DeliveryList = () => {
 
           return (
             <Col xs={12} key={delivery.delCode} className="mb-3">
-              {/* Use delCode for URL */}
-              <Link to={`/delivery/${delivery.delCode}`} className="card-link-wrapper">
-                <Card className="p-3 shadow-sm task-card">
-                  <div
-                    className="shaded-bg"
-                    style={{ width: `${progress}%` }}
-                  ></div>
-                  <Card.Body>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div>
-                        <div className="d-flex align-items-center mb-2">
-                          <span className="font-weight-bold" style={{ fontSize: '1.5rem' }}>
-                            {delivery.tasksPlanned} of {delivery.tasksTotal} Planned
-                          </span>
+              <LazyLoad
+                height={200}
+                offset={100}
+                once
+                placeholder={
+                  <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
+                    <FaSpinner className="spinner-icon" style={{ fontSize: '2rem', color: '#007bff', animation: 'spin 1s linear infinite' }} />
+                  </div>
+                }
+              >
+                <Link to={`/delivery/${delivery.delCode}`} className="card-link-wrapper">
+                  <Card className="p-3 shadow-sm task-card">
+                    <div
+                      className="shaded-bg"
+                      style={{ width: `${progress}%` }}
+                    ></div>
+                    <Card.Body>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <div className="d-flex align-items-center mb-2">
+                            <FiCheckCircle style={{ marginRight: '8px', color: 'green' }} />
+                            <span className="font-weight-bold" style={{ fontSize: '1.5rem' }}>
+                              {delivery.tasksPlanned} of {delivery.tasksTotal} Planned
+                            </span>
+                          </div>
+                          <div className="mb-2">
+                            <ProgressBar
+                              now={progress}
+                              variant={progress > 50 ? 'success' : progress > 20 ? 'warning' : 'danger'}
+                            />
+                          </div>
                         </div>
-                        <div className="mb-2">
-                          <ProgressBar
-                            now={progress}
-                            variant={progress > 50 ? 'success' : progress > 20 ? 'warning' : 'danger'}
-                          />
+                        <div className="text-right">
+                          <p className="mb-1 text-muted">
+                            <FiClock style={{ marginRight: '5px' }} />
+                            {delivery.initiated || 'No start time'}
+                          </p>
+                          <p className="mb-0 text-muted">
+                            <FiFlag style={{ marginRight: '5px' }} />
+                            {delivery.deadline}
+                          </p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="mb-1 text-muted">{delivery.initiated || 'No start time'}</p>
-                        <p className="mb-0 text-muted">{delivery.deadline}</p>
-                      </div>
-                    </div>
-                    <h5 className="mt-3">{delivery.client}</h5>
-                  </Card.Body>
-                </Card>
-              </Link>
+                      <h5 className="mt-3">{delivery.client}</h5>
+                    </Card.Body>
+                  </Card>
+                </Link>
+              </LazyLoad>
             </Col>
           );
         })}
       </Row>
     </Container>
   );
+
 };
 
 export default DeliveryList;
