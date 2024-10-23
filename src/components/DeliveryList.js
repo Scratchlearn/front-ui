@@ -97,8 +97,9 @@ const DeliveryList = () => {
       </Row>
 
       <p>You have {filteredDeliveries.length} active deliveries</p>
+
       <Row>
-        {filteredDeliveries.map((delivery) => {
+        {filteredDeliveries.slice(0, visibleDeliveries).map((delivery, index) => {
           const progress = delivery.tasksTotal === 0 ? 0 : (delivery.tasksPlanned / delivery.tasksTotal) * 100;
 
           return (
@@ -155,6 +156,9 @@ const DeliveryList = () => {
           );
         })}
       </Row>
+
+      {/* An invisible div at the end to trigger lazy loading */}
+      <div className="delivery-list-end" style={{ height: '1px', marginBottom: '20px' }}></div>
     </Container>
   );
 
